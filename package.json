@@ -1,6 +1,6 @@
 {
     "name": "chez-scheme-js",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Chez Scheme on the web w/ WASM and Workers",
     "sideEffects": false,
     "main": "dist/index.js",
@@ -15,7 +15,6 @@
         "build-chez": "rimraf src/chez && ./build-chez.sh",
         "build": "npm run clean && tsc && copyfiles -f src/chez/* dist/chez",
         "watch": "tsc --watch",
-        "start": "serve",
         "prepack": "npm run build",
         "clean": "rimraf dist"
     },

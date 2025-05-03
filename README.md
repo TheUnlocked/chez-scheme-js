@@ -19,6 +19,29 @@ Node.js is currently unsupported. There is no technical reason it couldn't be,
 but figuring out a build system that will support both Node.js and browsers takes some work.
 PRs to do this will be accepted.
 
+## Usage
+
+```js
+import Scheme from 'chez-scheme-js';
+
+const scheme = new Scheme({
+    error: err => console.error(err),
+});
+
+console.log(await scheme.init());
+// Petite Chez Scheme Version 9.9.9-pre-release.14
+// Copyright 1984-2022 Cisco Systems, Inc.
+console.log(await scheme.runExpression(`
+    (cdr '(1 2 3))
+
+    (define (add-one n) (+ n 1))
+    (add-one 2)
+`));
+// ["(2 3)", "3"]
+console.log(await scheme.runExpression('(add-one 5)'));
+// ["6"]
+```
+
 ## Development
 
 Run `npm i` to install dependencies.
@@ -32,14 +55,16 @@ You will need `gcc`, `make`, `sh`, and similar programs. If you are using Window
 You will also need to [install Emscripten](https://emscripten.org/docs/getting_started/downloads.html).
 
 Once you have everything installed, run `npm run build-chez`.
-This will generate a custom WebAssembly build of Chez Scheme,
-copy the relevant artifacts into `src/chez`, and then patch the
-JavaScript file so that `chez-scheme-js` can interface with certain internals.
+This will generate a custom WebAssembly build of Chez Scheme and copy the relevant artifacts into `src/chez`.
 
 ### Building
 
 This project uses Webpack, and it can be compiled with `npm run build` or watched with `npm run watch`.
 
+#### Publishing
+
+First verify the package has all necessary files with `npm pack`. Then run `npm publish` when ready.
+
 ### Testing
 
-Currently there are no automated tests. There is a playground which can be run with `npm start`
+Currently there are no automated tests. There is a playground in the `demo` directory which can be run with `npm run dev`.

@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 PETITE=1
 
@@ -46,13 +46,14 @@ emcc -DDISABLE_ICONV -Wpointer-arith -Wall -Wextra -Wno-implicit-fallthrough \
     -s ALLOW_MEMORY_GROWTH=1 \
     -s MODULARIZE=1 \
     -s EXPORT_ES6=1 \
+    -s EXPORTED_RUNTIME_METHODS='["FS", "FS_getMode", "removeRunDependency", "addRunDependency"]' \
     -o ../bin/pb/scheme.js ../boot/pb/main.o ../boot/pb/libkernel.a ../lz4/lib/liblz4.a
 
 echo 'Finished building'
 
 cd ..
 
-mkdir ../../src/chez/
+mkdir -p ../../src/chez/
 cp bin/pb/scheme.wasm ../../src/chez/
 cp bin/pb/scheme.js ../../src/chez/
 cp boot/pb/petite.boot ../../src/chez/
@@ -60,6 +61,3 @@ if ! [ $PETITE ]; then
     cp boot/pb/scheme.boot ../../src/chez/
 fi
 
-cd ../..
-
-node process-scheme.cjs

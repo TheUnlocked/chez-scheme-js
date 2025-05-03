@@ -84,7 +84,7 @@ addEventListener('message', async (ev: MessageEvent<WorkerData>) => {
     function loadFile(fsPath: string, data: Uint8Array) {
         createDir(fsPath.replace(/\/[^/]*\/?$/, '') || '/');
         
-        const mode = FS.getMode(true, true);
+        const mode = Module.FS_getMode(true, true);
         const node = FS.create(fsPath, mode);
         FS.chmod(node, mode | 146);
         const stream = FS.open(node, 577);
